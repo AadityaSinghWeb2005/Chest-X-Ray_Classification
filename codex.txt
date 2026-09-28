@@ -1,0 +1,186 @@
+You are working inside my existing Git repository for a Streamlit-based chest X-ray image classification project.
+
+I have already created a README.md file manually. Your task is to completely rewrite README.md into a polished, professional, GitHub-ready README based ONLY on the actual code, project structure, model implementation, and configuration present in this repository.
+
+IMPORTANT:
+- First inspect the entire repository.
+- Read app.py, requirements.txt, .gitignore, model-related files, and any other relevant source/configuration files.
+- Do NOT invent features, metrics, libraries, deployment methods, or implementation details that are not actually present in the repository.
+- If something is not implemented, do not claim that it is implemented.
+- Preserve factual accuracy over making the README sound impressive.
+
+PROJECT CONTEXT:
+
+This project is a chest X-ray image classification application built using Deep Learning and Transfer Learning.
+
+Dataset:
+- COVID-19 Radiography Dataset
+- Four classes:
+  1. COVID
+  2. Normal
+  3. Viral Pneumonia
+  4. Lung_Opacity
+- Total dataset size: 21,165 images
+- Dataset was split using stratified splitting:
+  - 80% Training
+  - 10% Validation
+  - 10% Testing
+
+Model:
+- DenseNet121
+- ImageNet pretrained weights
+- Transfer Learning was used
+- First, the pretrained DenseNet121 backbone was frozen and the classifier was trained.
+- Feature extraction was performed for 10 epochs.
+- Then the last DenseNet block was unfrozen and fine-tuning was performed for 10 epochs.
+- The final classifier contains Dropout(0.4) followed by a Linear layer mapping DenseNet features to 4 classes.
+- Image input size: 224 × 224
+- ImageNet normalization was used.
+
+Class imbalance:
+- The dataset is imbalanced.
+- Class weights were calculated from the training set.
+- Weighted CrossEntropyLoss was used during training.
+
+Fine-tuning results:
+- Best validation accuracy: 88.00%
+- Final test accuracy: 89.84%
+- Test Macro Precision: 89.54%
+- Test Macro Recall: 91.72%
+- Test Macro F1-score: 90.55%
+
+Test-set per-class results:
+- COVID:
+  Precision: 85.31%
+  Recall: 91.44%
+  F1-score: 88.27%
+  Support: 362
+
+- Normal:
+  Precision: 91.38%
+  Recall: 90.48%
+  F1-score: 90.93%
+  Support: 1019
+
+- Viral Pneumonia:
+  Precision: 91.72%
+  Recall: 99.25%
+  F1-score: 95.34%
+  Support: 134
+
+- Lung_Opacity:
+  Precision: 89.74%
+  Recall: 85.71%
+  F1-score: 87.68%
+  Support: 602
+
+The final test set contains 2,117 images.
+
+Application:
+- Built using Streamlit.
+- Users can upload PNG, JPG, or JPEG chest X-ray images.
+- The application performs preprocessing and inference using the fine-tuned DenseNet121 model.
+- It displays:
+  - Predicted class
+  - Model confidence
+  - Probability distribution across all four classes
+  - Probability visualization
+- The application supports CPU/GPU inference depending on the available PyTorch device.
+- The trained model is stored under the model/ directory.
+
+README STRUCTURE:
+
+Create a professional README with the following sections:
+
+# Project Title
+
+Give the project a clear and professional title.
+
+## Overview
+Explain the purpose of the project and what problem it addresses.
+
+## Features
+List the actual implemented features.
+
+## Model Architecture
+Explain:
+- DenseNet121
+- ImageNet pretraining
+- Transfer Learning
+- Feature extraction
+- Fine-tuning
+- Final classification head
+
+Include a simple ASCII architecture diagram.
+
+## Dataset
+Explain:
+- Dataset name
+- Four classes
+- Total number of images
+- Train/validation/test split
+- Class imbalance and how it was handled
+
+Do NOT provide a download link unless one already exists in the repository.
+
+## Training Methodology
+Explain the two-stage training process:
+
+Stage 1:
+- Frozen DenseNet121 backbone
+- Train classifier
+- 10 epochs
+
+Stage 2:
+- Unfreeze final DenseNet block
+- Fine-tune with a low learning rate
+- 10 epochs
+
+Explain why fine-tuning is useful in this context.
+
+## Results
+
+Create a clean Markdown table containing:
+- Accuracy
+- Macro Precision
+- Macro Recall
+- Macro F1
+
+Then create a second table containing per-class:
+- Precision
+- Recall
+- F1-score
+- Support
+
+Clearly label these as TEST SET results.
+
+Do not exaggerate the results.
+
+## Confusion Matrix Analysis
+Explain the important observed confusion patterns based on the actual results.
+
+For example, discuss the Normal and Lung_Opacity confusion only if supported by the actual confusion matrix/results available in the repository.
+
+## Streamlit Application
+Explain how the deployed/local application works:
+1. User uploads X-ray
+2. Image preprocessing
+3. DenseNet121 inference
+4. Softmax probabilities
+5. Predicted class and confidence
+6. Probability visualization
+
+## Project Structure
+
+Show the actual repository structure.
+
+For example:
+
+```text
+project/
+├── app.py
+├── requirements.txt
+├── README.md
+├── .gitignore
+└── model/
+    └── best_densenet121_finetuned.pth
